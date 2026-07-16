@@ -533,18 +533,18 @@ body {
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: 600;
-  bottom: 110px;
+  bottom: auto; /* prevents vertical stretching when top is set by JS */
   /* Centered above decline button, dynamically shown by JS */
   pointer-events: none;
   opacity: 0;
-  transform: translateY(10px) scale(0.9);
+  transform: translate(-50%, 10px) scale(0.9);
   transition: opacity 0.3s ease, transform 0.3s ease;
   z-index: 10;
   box-shadow: 0 4px 15px rgba(255, 94, 126, 0.3);
 }
 .bubble-chat.show {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translate(-50%, 0) scale(1);
 }
 .bubble-arrow {
   content: '';
@@ -607,12 +607,11 @@ body {
 
 /* Runaway class */
 .runaway {
-  position: absolute !important;
   z-index: 100;
   box-shadow: var(--shadow-glow-pink);
   pointer-events: auto; /* ensure we can detect interaction */
-  transition: left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15), 
-              top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15),
+              box-shadow 0.3s ease;
 }
 
 /* Ticket Reveal Animation */
