@@ -93,6 +93,7 @@ function setupRSVPInteractive() {
   let declineHoverCount = 0;
   let originalLeft = null;
   let originalTop = null;
+  let isRunawayMoving = false;
 
   const guiltMessages = [
     "Wait, are you sure? 🥺",
@@ -152,6 +153,7 @@ function setupRSVPInteractive() {
     declineHoverCount = 0;
     originalLeft = null;
     originalTop = null;
+    isRunawayMoving = false;
     btnDecline.style.transform = 'translate(0px, 0px)';
     btnDecline.classList.remove('runaway');
     guiltBubble.classList.remove('show');
@@ -168,10 +170,16 @@ function setupRSVPInteractive() {
 
   /* --- Runaway Button Logic --- */
   
+  let lastMouseX = 0;
+  let lastMouseY = 0;
+
   // Track mouse coordinates to jump BEFORE cursor arrives (feels magical)
   document.addEventListener('mousemove', (e) => {
     if (rsvpDefaultState.classList.contains('hidden')) return;
     if (declineHoverCount >= 5) return; // Stop running away after 5 attempts
+    
+    lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
 
     const rect = btnDecline.getBoundingClientRect();
     const btnCenterX = rect.left + rect.width / 2;
@@ -183,7 +191,7 @@ function setupRSVPInteractive() {
 
     // Trigger runaway if cursor is within 85px
     if (distance < 85) {
-      runawayAction();
+      runawayAction(e.clientX, e.clientY);
     }
   });
 
@@ -191,11 +199,14 @@ function setupRSVPInteractive() {
   btnDecline.addEventListener('touchstart', (e) => {
     if (declineHoverCount < 5) {
       e.preventDefault(); // stop click event
-      runawayAction();
+      const touch = e.touches[0];
+      runawayAction(touch.clientX, touch.clientY);
     }
   });
 
-  function runawayAction() {
+  function runawayAction(mouseX, mouseY) {
+    if (isRunawayMoving) return; // Cooldown lock
+    isRunawayMoving = true;
     declineHoverCount++;
     
     btnDecline.classList.add('runaway');
@@ -214,8 +225,28 @@ function setupRSVPInteractive() {
     const maxX = cardRect.width - btnRect.width - 40;
     const maxY = cardRect.height - btnRect.height - 40;
 
-    const randomX = Math.max(20, Math.min(maxX, Math.random() * maxX));
-    const randomY = Math.max(20, Math.min(maxY, Math.random() * maxY));
+    // Convert mouse coordinates relative to card
+    const cardMouseX = mouseX - cardRect.left;
+    const cardMouseY = mouseY - cardRect.top;
+
+    let randomX, randomY;
+    let attempts = 0;
+
+    // Retry choosing coordinates if they are too close to the current pointer position
+    do {
+      randomX = Math.max(20, Math.min(maxX, Math.random() * maxX));
+      randomY = Math.max(20, Math.min(maxY, Math.random() * maxY));
+      attempts++;
+
+      const btnCenterX = randomX + btnRect.width / 2;
+      const btnCenterY = randomY + btnRect.height / 2;
+      const dist = Math.sqrt(Math.pow(btnCenterX - cardMouseX, 2) + Math.pow(btnCenterY - cardMouseY, 2));
+
+      // Keep choosing if the button is within 140px of the cursor
+      if (dist > 140 || attempts > 20) {
+        break;
+      }
+    } while (true);
 
     // Calculate translation offset relative to the original position
     const transX = randomX - originalLeft;
@@ -226,6 +257,11 @@ function setupRSVPInteractive() {
 
     // Show guilt trip message bubble
     showGuiltTrip();
+
+    // Release cooldown lock after the CSS transition finishes
+    setTimeout(() => {
+      isRunawayMoving = false;
+    }, 450);
   }
 
   function showGuiltTrip() {
