@@ -76,6 +76,34 @@
       </div>
     </section>
 
+    <!-- Why I Thought of Asking You Section -->
+    <section class="section sentimental-section animate-on-scroll">
+      <div class="card glassmorphic emotional-card">
+        <div class="card-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <h2 class="section-title">🌸 Why I Thought of Asking You...</h2>
+        <p class="emotional-subtext">There are some thoughts I wanted to share:</p>
+        
+        <div class="emotional-list">
+          <div class="emotional-item">
+            <span class="emoji">🚆</span>
+            <p>It's my first long train journey.</p>
+          </div>
+          <div class="emotional-item">
+            <span class="emoji">🌉</span>
+            <p>It's my first time travelling to Kolkata alone.</p>
+          </div>
+          <div class="emotional-item">
+            <span class="emoji">🙈</span>
+            <p>Somehow, you were the first person I wanted to ask.</p>
+          </div>
+          <div class="emotional-item highlight-emotional">
+            <span class="emoji">✨</span>
+            <p>I think some journeys become more special when shared with the right person.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Reasons to Come Section -->
     <section class="section reasons-section animate-on-scroll">
       <h2 class="section-title text-center"><i class="fa-solid fa-circle-info"></i> Why you should definitely come:</h2>
@@ -113,6 +141,35 @@
           A chance to finally answer the age-old mystery:
           <span>"Kya yeh imaginary passenger sach mein Kolkata chalega?" 🙈</span>
         </p>
+      </div>
+    </section>
+
+    <!-- Things We Could Do Together Section -->
+    <section class="section activities-section animate-on-scroll">
+      <h2 class="section-title text-center"><i class="fa-solid fa-star"></i> Things We Could Do Together:</h2>
+      <p class="section-subtitle text-center">A little preview of our potential adventures</p>
+
+      <div class="activities-grid">
+        <div class="activity-card glassmorphic">
+          <div class="activity-icon"><span class="activity-emoji">🚆</span></div>
+          <p>Share snacks and complain about train food.</p>
+        </div>
+        <div class="activity-card glassmorphic">
+          <div class="activity-icon"><span class="activity-emoji">🌉</span></div>
+          <p>Wander around Kolkata and pretend we know the routes.</p>
+        </div>
+        <div class="activity-card glassmorphic">
+          <div class="activity-icon"><span class="activity-emoji">☕</span></div>
+          <p>Find random cafés and talk for hours.</p>
+        </div>
+        <div class="activity-card glassmorphic">
+          <div class="activity-icon"><span class="activity-emoji">📸</span></div>
+          <p>Take terrible photos and laugh at them later.</p>
+        </div>
+        <div class="activity-card glassmorphic full-width-activity">
+          <div class="activity-icon"><span class="activity-emoji">💻</span></div>
+          <p>Survive the hackathon and celebrate afterwards.</p>
+        </div>
       </div>
     </section>
 
@@ -172,6 +229,11 @@
         <p>This invitation comes with absolutely <strong>no pressure</strong>.</p>
         <p>If you can't come, I'll completely understand. No guilt trips, I promise.</p>
         <p class="promise-wafers">But if you do... I promise to share my wafers. 😌❤️</p>
+        
+        <div class="sentimental-note">
+          <i class="fa-solid fa-quote-left note-quote-icon"></i>
+          <p class="note-quote-text">"There's no pressure to say yes. I just wanted to ask because, somewhere between Nagpur and Howrah, I think we'd have a lot to talk about." 🌷</p>
+        </div>
       </div>
     </section>
 
@@ -182,10 +244,17 @@
         <!-- Default RSVP state -->
         <div id="rsvp-default-state">
           <h2 class="section-title">Will you join the journey?</h2>
-          <div class="passenger-counter">
-            <span class="counter-label">Current passenger count:</span>
-            <span class="counter-val" id="passenger-count">1/2</span>
-            <span class="counter-emoji">🚆🤭</span>
+          <!-- Status Card -->
+          <div class="status-card glassmorphic">
+            <div class="status-row">
+              <span class="status-label"><i class="fa-solid fa-users"></i> Current passenger count:</span>
+              <span class="status-val"><span id="passenger-count">1/2</span> 🚆</span>
+            </div>
+            <div class="status-divider"></div>
+            <div class="status-row">
+              <span class="status-label"><i class="fa-solid fa-hourglass-half"></i> Status:</span>
+              <span class="status-text" id="rsvp-status-text">Waiting for my favourite architect's decision. 🤭❤️</span>
+            </div>
           </div>
 
           <!-- Decline Bubble Alert (Hidden by default, used for guilt trips) -->

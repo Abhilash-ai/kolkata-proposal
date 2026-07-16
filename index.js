@@ -99,6 +99,8 @@ function setupRSVPInteractive() {
     "Okay, I'll stop running... but please? 🥺👉👈"
   ];
 
+  const rsvpStatusText = document.getElementById('rsvp-status-text');
+
   // Check LocalStorage on load
   const existingRSVP = localStorage.getItem('kolkata_rsvp');
   if (existingRSVP === 'accepted') {
@@ -121,9 +123,9 @@ function setupRSVPInteractive() {
 
   function showTicket() {
     passengerCount.textContent = "2/2";
-    // Change counter emoji
-    const emojiSpan = passengerCount.nextElementSibling;
-    if (emojiSpan) emojiSpan.textContent = "🚆❤️";
+    if (rsvpStatusText) {
+      rsvpStatusText.textContent = "Journey Confirmed! Wafers packed. 🚆❤️";
+    }
     
     rsvpDefaultState.classList.add('hidden');
     rsvpTicketState.classList.remove('hidden');
@@ -136,8 +138,9 @@ function setupRSVPInteractive() {
 
   function hideTicket() {
     passengerCount.textContent = "1/2";
-    const emojiSpan = passengerCount.nextElementSibling;
-    if (emojiSpan) emojiSpan.textContent = "🚆🤭";
+    if (rsvpStatusText) {
+      rsvpStatusText.textContent = "Waiting for my favourite architect's decision. 🤭❤️";
+    }
     
     rsvpTicketState.classList.add('hidden');
     rsvpDefaultState.classList.remove('hidden');
