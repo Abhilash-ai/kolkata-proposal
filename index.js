@@ -91,6 +91,9 @@ function setupRSVPInteractive() {
   const rsvpCard = document.querySelector('.rsvp-card');
 
   let declineHoverCount = 0;
+  let originalLeft = null;
+  let originalTop = null;
+
   const guiltMessages = [
     "Wait, are you sure? 🥺",
     "But... who will eat the wafers? 😭",
@@ -131,7 +134,7 @@ function setupRSVPInteractive() {
     rsvpTicketState.classList.remove('hidden');
     
     // Reset decline button position if it ran away
-    btnDecline.style.transform = '';
+    btnDecline.style.transform = 'translate(0px, 0px)';
     btnDecline.classList.remove('runaway');
     guiltBubble.classList.remove('show');
   }
@@ -145,9 +148,23 @@ function setupRSVPInteractive() {
     rsvpTicketState.classList.add('hidden');
     rsvpDefaultState.classList.remove('hidden');
     
-    // Reset counters
+    // Reset counters and original positions
     declineHoverCount = 0;
+    originalLeft = null;
+    originalTop = null;
+    btnDecline.style.transform = 'translate(0px, 0px)';
+    btnDecline.classList.remove('runaway');
+    guiltBubble.classList.remove('show');
   }
+
+  // Handle window resizing to recalculate layout offsets
+  window.addEventListener('resize', () => {
+    originalLeft = null;
+    originalTop = null;
+    if (!btnDecline.classList.contains('runaway')) {
+      btnDecline.style.transform = '';
+    }
+  });
 
   /* --- Runaway Button Logic --- */
   
@@ -187,6 +204,12 @@ function setupRSVPInteractive() {
     const cardRect = rsvpCard.getBoundingClientRect();
     const btnRect = btnDecline.getBoundingClientRect();
 
+    if (originalLeft === null) {
+      // Calculate original position relative to the rsvp-card container
+      originalLeft = btnRect.left - cardRect.left;
+      originalTop = btnRect.top - cardRect.top;
+    }
+
     // Random safe offsets within the card padding limits
     const maxX = cardRect.width - btnRect.width - 40;
     const maxY = cardRect.height - btnRect.height - 40;
@@ -194,9 +217,12 @@ function setupRSVPInteractive() {
     const randomX = Math.max(20, Math.min(maxX, Math.random() * maxX));
     const randomY = Math.max(20, Math.min(maxY, Math.random() * maxY));
 
-    // Position it absolutely relative to the rsvp-card container
-    btnDecline.style.left = `${randomX}px`;
-    btnDecline.style.top = `${randomY}px`;
+    // Calculate translation offset relative to the original position
+    const transX = randomX - originalLeft;
+    const transY = randomY - originalTop;
+
+    // Apply transform translation
+    btnDecline.style.transform = `translate(${transX}px, ${transY}px)`;
 
     // Show guilt trip message bubble
     showGuiltTrip();
